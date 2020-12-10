@@ -46,32 +46,12 @@
           <ul class="list-group">
             <%for(var i=0; i < nameArr1.length;i++){ %>
                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <form action="/add" method="POST">
-                        <div class="form-group row">
-                            <div class="col-sm-10">
-                              <input type="text" readonly="" class="form-control-plaintext" id="hospital" name="hospital" value= <%= names[i].name %> >
-                            </div>
-                          </div>
-                          <button type="submit" class="btn btn-primary">Visited</button>
-                    </form>
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <%= nameArr1[i].name; %>
+                </li>
                 </li>
             <% } %>
         </ul>
-        <ul class="list-group">
-          <%for(var i=0; i < nameArr2.length;i++){ %>
-              <li class="list-group-item d-flex justify-content-between align-items-center">
-                  <form action="/add" method="POST">
-                      <div class="form-group row">
-                          <div class="col-sm-10">
-                            <input type="text" readonly="" class="form-control-plaintext" id="hospital" name="hospital" value= <%= names[i].name %> >
-                          </div>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Visited</button>
-                  </form>
-              </li>
-          <% } %>
-      </ul>
-
       </body>
 
 </html>

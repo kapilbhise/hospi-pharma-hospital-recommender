@@ -352,7 +352,6 @@ app.post('/login', function(req, res) {
         session
             .run("MATCH (u:user{username:$userx}) SET u.email=$emailx,u.locality=$localityx,u.disease=$diseasex",{userx:username,emailx:email,localityx:locality,diseasex:disease})
             .then(function(result){
-                req.flash('success', 'Changes saved!');
                 res.redirect('profile');
             })
             .catch(function(err){
@@ -386,69 +385,19 @@ app.post('/login', function(req, res) {
         res.sendFile(path.join(__dirname, './mymap.html'));
     })
 
-    app.get('/recommendation', function(req,res){
+    app.get('/recommendation', async function(req,res){
         if(req.session.loggedin){
             var nameuser = req.session.name;
-            var disease = '';
-            var locality = '';
-            result1 = session
-                .run("MATCH (u:user{username:$userparam} RETURN u MATCH (h:Hospital) WHERE toLower(h.Facilities) CONTAINS toLower($userParam) RETURN h)",{userParam:nameuser});
-                // .then(function(result){
-                //     disease = result.records[0].get('disease');
-                //     locality = result.records[0].get('locality');
-                // }
-                // ) 
-                // .catch(function(err){
-                //     if(err){
-                //         console.log(err);
-                //     }
-
-                // });
-                disease = result1.records[0].get('disease');
-                locality = result1.records[0].get('locality');
+            result1 = await session
+                .run("MATCH (u:user{username:$userParam}),(h:Hospital)-[]-(l:Locality{Locality:u.locality}) RETURN h",{userParam:nameuser}).catch(function(err){if(err){console.log(err);}});
             var nameArr1 = [];
-            var nameArr2 = [];
-            var result2 = session
-                .run("MATCH (h:Hospital) WHERE toLower(h.Facilities) CONTAINS toLower($userParam) RETURN h",{userParam:disease});
-                // .then(function(result){
-                //     for(let i=0;i<result.records.length;i++){
-                //         nameArr1.push({
-                //             name: result.records[i]._fields[0].properties.Hospital_Name
-                //         });
-                //     }
-                // })
-                // .catch(function(err){
-                //     if(err){
-                //         console.log(err);
-                //     }
-                // });
-                for(let i=0;i<result2.records.length;i++){
+                for(let i=0;i<result1.records.length;i++){
                     nameArr1.push({
-                        name: result2.records[i]._fields[0].properties.Hospital_Name
+                        name: result1.records[i]._fields[0].properties.Hospital_Name
                     });
                 }  
-            var result3 = session
-                .run("MATCH (h:Hospital)-[]-(l:Locality) WHERE toLower(l.Locality) CONTAINS toLower($userParam1)  RETURN h;",{userParam1:locality});
-                // .then(function(result){
-                //     for(let i=0;i<result.records.length;i++){
-                //         nameArr2.push({
-                //             name: result.records[i]._fields[0].properties.Hospital_Name
-                //         });
-                //     }
-                // })
-                // .catch(function(err){
-                //     if(err){
-                //         console.log(err);
-                //     }
-                // });
-                for(let i=0;i<result3.records.length;i++){
-                    nameArr2.push({
-                        name: result3.records[i]._fields[0].properties.Hospital_Name
-                    });
-                }
             res.render('recommendation',{
                 nameArr1 : nameArr1,
-                nameArr2: nameArr2,
             });
         }
     })
