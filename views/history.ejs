@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>History</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/simplex/bootstrap.min.css" integrity="sha384-FYrl2Nk72fpV6+l3Bymt1zZhnQFK75ipDqPXK0sOR0f/zeOSZ45/tKlsKucQyjSp" crossorigin="anonymous">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    </head>
+
+    <body style="padding: 5%;">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="/">HospiPharma</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarColor03">
+              <ul class="navbar-nav mr-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="/logout">Logout</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/signup">Signup</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/dashboard">Dashboard</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/">Search</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">History</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/profile">Profile</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/recommendation">Recommendations</a>
+              </li>
+              </ul>
+            </div>
+          </nav>
+
+        <div style="padding: 5%;">
+            <% if(hospitals.length == 0){   %>
+                <h2>You haven't visited any hospital.</h2>
+            <% }else{  for(let a=0; a<hospitals.length; a++) { %>
+                <ul class="list-group">
+                    <%for(var i=0; i < hospitals.length;i++){ %>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <h3>
+                            <%= hospitals[i].hospital._fields[0].properties.Hospital_Name %>
+                        </h3>    
+                        <p>
+                            <%= hospitals[i].hospital._fields[0].properties.Hospital_Name %>
+                        </p>
+                        </li>
+                    <% } %>
+                </ul>
+            <% } } %>
+        </div>
+    </body>
+
+</html>

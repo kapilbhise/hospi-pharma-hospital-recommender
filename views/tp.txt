@@ -1,0 +1,15 @@
+<!-- <% if(hospitals.length == 0){   %>
+            <h2>You haven't visited any hospital.</h2>
+        <% }else{  for(let a=0; a<hospitals.length; a++) { %>
+            <li>
+            <ul><div class="card border-primary mb-3 mx-auto" style="max-width: 20rem;">
+                <div class="card-header">
+                    hospitals.records[a]._fields[0].properties.Hospital_Name
+                </div>
+                <div class="card-body">
+                   <p><b>Address:</b> hospitals.records[a]._fields[0].properties.Location</p>
+                </div>
+            </div>
+            </ul>
+        </li>
+        <% } } %> -->

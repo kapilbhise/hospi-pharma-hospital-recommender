@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Hospital Search</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/simplex/bootstrap.min.css" integrity="sha384-FYrl2Nk72fpV6+l3Bymt1zZhnQFK75ipDqPXK0sOR0f/zeOSZ45/tKlsKucQyjSp" crossorigin="anonymous">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    </head>
+
+    <body>
+
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="/">HospiPharma</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarColor03">
+              <ul class="navbar-nav mr-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="/logout">Logout</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/signup">Signup</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/dashboard">Dashboard</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/">Search</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/history">History</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/profile">Profile</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Recommendations</a>
+              </li>
+              </ul>
+            </div>
+          </nav>
+
+          <ul class="list-group">
+            <%for(var i=0; i < nameArr1.length;i++){ %>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <form action="/add" method="POST">
+                        <div class="form-group row">
+                            <div class="col-sm-10">
+                              <input type="text" readonly="" class="form-control-plaintext" id="hospital" name="hospital" value= <%= names[i].name %> >
+                            </div>
+                          </div>
+                          <button type="submit" class="btn btn-primary">Visited</button>
+                    </form>
+                </li>
+            <% } %>
+        </ul>
+        <ul class="list-group">
+          <%for(var i=0; i < nameArr2.length;i++){ %>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                  <form action="/add" method="POST">
+                      <div class="form-group row">
+                          <div class="col-sm-10">
+                            <input type="text" readonly="" class="form-control-plaintext" id="hospital" name="hospital" value= <%= names[i].name %> >
+                          </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Visited</button>
+                  </form>
+              </li>
+          <% } %>
+      </ul>
+
+      </body>
+
+</html>
+        

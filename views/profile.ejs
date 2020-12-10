@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>User Profile</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/simplex/bootstrap.min.css" integrity="sha384-FYrl2Nk72fpV6+l3Bymt1zZhnQFK75ipDqPXK0sOR0f/zeOSZ45/tKlsKucQyjSp" crossorigin="anonymous">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    </head>
+
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+          <a class="navbar-brand" href="/">HospiPharma</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarColor03">
+            <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="/logout">Logout</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/signup">Signup</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/dashboard">Dashboard</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/">Search</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/history">History</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Profile</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/recommendation">Recommendations</a>
+            </li>
+            </ul>
+          </div>
+        </nav>
+        <div style="padding: 5%;">
+          <div class="card border-primary mb-3 mx-auto" style="max-width: 20rem;">
+              <div class="card-body">
+
+        <form action="/profile" method="POST">
+            <fieldset>
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" class="form-control" id="username" placeholder="Username" name="username" size="10" maxlength="10">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email address</label>
+                    <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="abc@example.com" name="email" size="10" maxlength="10">
+                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                  </div>
+              <div class="form-group">
+                <label for="locality">Locality</label>
+                <select class="form-control" id="locality" name="locality">
+                  <option value="Aareymilk Colony">Aareymilk Colony</option>
+                  <option value="Andheri">Andheri</option>
+                  <option value="Andheri East">Andheri East</option>
+                  <option value="Andheri Railway Station">Andheri Railway Station</option>
+                  <option value="Antop Hill">Antop Hill</option>
+                  <option value="Anushakti Nagar">Anushakti Nagar</option>
+                  <option value="Bandra West">Bandra West</option>
+                  <option value="Bandra(East)">Bandra(East)</option>
+                  <option value="BARC">BARC</option>
+                  <option value="Barve Nagar">Barve Nagar</option>
+                  <option value="Bhandup Complex">Bhandup Complex</option>
+                  <option value="Bhandup East">Bhandup East</option>
+                  <option value="Bhandup West">Bhandup West</option>
+                  <option value="Borivali">Borivali</option>
+                  <option value="Borivali East">Borivali East</option>
+                  <option value="Borivali West">Borivali West</option>
+                  <option value="Chakala Midc">Chakala Midc</option>
+                  <option value="Chembur">Chembur</option>
+                  <option value="Chembur/ Tilak Nagar">Chembur/ Tilak Nagar</option>
+                  <option value="Chinchbunder">Chinchbunder</option>
+                  <option value="Chinchpokli">Chinchpokli</option>
+                  <option value="Chunabhatti Sion">Chunabhatti Sion</option>
+                  <option value="Colaba">Colaba</option>
+                  <option value="Dadar">Dadar</option>
+                  <option value="Dahisar">Dahisar</option>
+                  <option value="Delisle Road">Delisle Road</option>
+                  <option value="Dharavi">Dharavi</option>
+                  <option value="Ghatkopar West">Ghatkopar West</option>
+                  <option value="Girgaon">Girgaon</option>
+                  <option value="Goregaon East">Goregaon East</option>
+                  <option value="Goregaon S.O">Goregaon S.O</option>
+                  <option value="Govandi">Govandi</option>
+                  <option value="Haji Ali/ Tulsiwadi">Haji Ali/ Tulsiwadi</option>
+                  <option value="International Airport">International Airport</option>
+                  <option value="Jogeshwari East">Jogeshwari East</option>
+                  <option value="Jogeshwari West/ Oshiwara">Jogeshwari West/ Oshiwara</option>
+                  <option value="Juhu">Juhu</option>
+                  <option value="Kalbadevi">Kalbadevi</option>
+                  <option value="Kandivali East">Kandivali East</option>
+                  <option value="Kandivali/ Charkop">Kandivali/ Charkop</option>
+                  <option value="Khar">Khar</option>
+                  <option value="Kharodi">Kharodi</option>
+                  <option value="Kurla">Kurla</option>
+                  <option value="Lalbaug Parel">Lalbaug Parel</option>
+                  <option value="Madh">Madh</option>
+                  <option value="Mahim">Mahim</option>
+                  <option value="Mahul Road">Mahul Road</option>
+                  <option value="Malabar Hill">Malabar Hill</option>
+                  <option value="Malad">Malad</option>
+                  <option value="Malad East">Malad East</option>
+                  <option value="Mandapeshwar">Mandapeshwar</option>
+                  <option value="Mantralaya">Mantralaya</option>
+                  <option value="Marine Lines Churchgate">Marine Lines Churchgate</option>
+                  <option value="Marol Naka">Marol Naka</option>
+                  <option value="Masjid">Masjid</option>
+                  <option value="Matunga">Matunga</option>
+                  <option value="Mazgaon">Mazgaon</option>
+                  <option value="Mori Road">Mori Road</option>
+                  <option value="Mulund East">Mulund East</option>
+                  <option value="Mulund West/ Nahur">Mulund West/ Nahur</option>
+                  <option value="Mumbai">Mumbai</option>
+                  <option value="Mumbai Central">Mumbai Central</option>
+                  <option value="Nariman Point">Nariman Point</option>
+                  <option value="Nehru Nagar S.O">Nehru Nagar S.O</option>
+                  <option value="NITIE">NITIE</option>
+                  <option value="Pant Nagar">Pant Nagar</option>
+                  <option value="Powai">Powai</option>
+                  <option value="Prabhadevi">Prabhadevi</option>
+                  <option value="Rajawadi">Rajawadi</option>
+                  <option value="Rajbhavan S.O">Rajbhavan S.O</option>
+                  <option value="Reay Road">Reay Road</option>
+                  <option value="Sakinaka">Sakinaka</option>
+                  <option value="Santacruz">Santacruz</option>
+                  <option value="Santacruz Central, West">Santacruz Central, West</option>
+                  <option value="Santacruz(East)">Santacruz(East)</option>
+                  <option value="Seepz">Seepz</option>
+                  <option value="Sewri">Sewri</option>
+                  <option value="Shivaji Nagar">Shivaji Nagar</option>
+                  <option value="Shivaji Park Dadar West">Shivaji Park Dadar West</option>
+                  <option value="Tagore Nagar">Tagore Nagar</option>
+                  <option value="Tardeo">Tardeo</option>
+                  <option value="V J B Udyan">V J B Udyan</option>
+                  <option value="Vesava">Vesava</option>
+                  <option value="Vidyanagari">Vidyanagari</option>
+                  <option value="Vikhroli">Vikhroli</option>
+                  <option value="Vileeparle (East)">Vileeparle (East)</option>
+                  <option value="Vileparle(West)">Vileparle(West)</option>
+                  <option value="Wadala">Wadala</option>
+                  <option value="Worli">Worli</option>
+                  <option value="Worli Sea Face">Worli Sea Face</option>                                      
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="disease">Disease</label>
+                <input type="text" class="form-control" id="disease" placeholder="disease" name="disease" size="10" maxlength="10">
+            </div>
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </fieldset>
+            </form>
+          </div>
+          </div>
+          </div>
+          </body>
+          </html>
