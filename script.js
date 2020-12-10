@@ -30,3 +30,5 @@ function setupMap(center) {
 
     map.addControl(directions, 'top-left');
 }
+
+//module.exports = map;

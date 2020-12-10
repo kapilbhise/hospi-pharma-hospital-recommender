@@ -19,6 +19,7 @@
     "express-session": "^1.17.1",
     "express-validator": "^6.8.0",
     "http-errors": "^1.8.0",
+    "mapbox-gl": "^2.0.0",
     "morgan": "^1.10.0",
     "neo4j-driver": "^4.2.1",
     "path": "^0.12.7"
