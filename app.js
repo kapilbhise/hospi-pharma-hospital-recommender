@@ -7,7 +7,10 @@ var expressValidator = require('express-validator');
 var flash = require('express-flash');
 var session1 = require('express-session');
 var bodyParser = require('body-parser');
+// var request = require('request'),
+var geojson = require('geojson');
 const bcrypt = require('bcryptjs');
+
 
 var neo4j = require('neo4j-driver');
 var driver = neo4j.driver('bolt://localhost:7687', neo4j.auth.basic('neo4j', 'graph'));
@@ -35,7 +38,133 @@ app.use(session1({
 app.use(flash());
 app.use(expressValidator());
  
-// app.use('/auth', authRouter);
+let latitude,longitude, addr=" ", UserData, HospitalData;
+const forwardGeocoding = function (address) { 
+  
+    var url = "https://api.mapbox.com/geocoding/v5/mapbox.places/"+encodeURIComponent(address)+".json?access_token=pk.eyJ1Ijoia2FwaWxiaGlzZSIsImEiOiJja2c3anZpeTkwNGM3MnhvM3oxZ2RmMjQ0In0.9T4RHnjI16enI8S3MqNjXQ&limit=1"; 
+  
+    request({ url: url, json: true }, function (error, response) { 
+        if (error) { 
+            callback('Unable to connect to Geocode API', undefined); 
+        } else if (response.body.features.length == 0) { 
+            callback('Unable to find location. Try to '
+                     + 'search another location.'); 
+        } else { 
+  
+            var longitude = response.body.features[0].center[0] 
+            var latitude = response.body.features[0].center[1] 
+            var location = response.body.features[0].place_name 
+  
+            console.log("Latitude :", latitude); 
+            console.log("Longitude :", longitude); 
+            console.log("Location :", location); 
+            return latitude, longitude;
+        } 
+    }) 
+} 
+
+
+app.get("/datacapture",function(req,res){
+
+    // const address=reverseGeocoding(19.75, 75.71);
+    // console.log(address);
+    res.sendFile(__dirname+"/form.html");
+});
+
+app.post("/datacapture",function(req,res){
+  var url =
+    "https://api.mapbox.com/geocoding/v5/mapbox.places/" +
+    req.body.mylongitude +
+    ", " +
+    req.body.mylatitude +
+    ".json?access_token=" +
+    "pk.eyJ1Ijoia2FwaWxiaGlzZSIsImEiOiJja2c3anZpeTkwNGM3MnhvM3oxZ2RmMjQ0In0.9T4RHnjI16enI8S3MqNjXQ";
+
+  request({ url: url, json: true }, function (error, response) {
+    if (error) {
+      console.log("Unable to connect to Geocode API");
+    } else if (response.body.features.length == 0) {
+      console.log(
+        "Unable to find location. Try to" + " search another location."
+      );
+    } else {
+      addr = String(response.body.features[0].place_name);
+      console.log(response.body.features[0].place_name);
+      //console.log("hi "+addr);
+      
+      return addr;
+    }
+  });
+
+  //const Address=reverseGeocoding(req.body.mylatitude, req.body.mylongitude);
+  //console.log("Hello",Address);
+  setTimeout(function () {
+    UserData = {
+      name: req.body.inputName,
+      surname: req.body.inputSurname,
+      latitude: req.body.mylatitude,
+      longitude: req.body.mylongitude,
+      address: addr,
+    };
+    console.log(UserData);
+    // var param={
+    //   "nameParam":UserData.name, 
+    //   "surnameParam":UserData.surname, 
+    //   "latitudeParam":UserData.latitude, 
+    //   "longitudeParam":UserData.longitude, 
+    //   "addressParam":UserData.address
+    // };
+    // var q='CREATE (n:Person {
+    //       Name:{nameParam}, 
+    //       Surname:{surnameParam},
+    //       Lat:{latitudeParam},
+    //       Lon:{longitudeParam},
+    //       Address:{addressParam} }) RETURN (n)';
+    let params = {
+      nameParam: UserData.name,
+      surnameParam: UserData.surname,
+      latitudeParam: UserData.latitude,
+      longitudeParam: UserData.longitude,
+      addressParam: UserData.address,
+    };
+
+    let query =
+      "Create (u:user { username:$nameParam, latitude:$latitudeParam, longitude:$longitudeParam, address:$addressParam })  RETURN (u) ";
+
+    session
+      .run(query,params)
+      .then(function (result) {
+        // result.records.forEach(function (record) {
+        //   console.log(record);
+        // });
+        //console.log(result);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }, 3000);
+  
+  res.send(UserData);
+  res.redirect('dashboard');
+  
+});
+
+// app.get('/maphome', function(req, res) {
+//     res.sendFile(path.join(__dirname + '/form.html'));
+// });
+
+// app.post('/map1',async function(req,res){
+//     var latitude = req.body.mylatitude;
+//     var longitude = req.body.mylongitude;
+//     // console.log(latitude);
+//     // console.log(longitude);
+//     const result = await session
+//         .run("WITH point({latitude: $lat, longitude: $long}) AS userloc MATCH (a:Hospital) WHERE exists(a.latitude) AND exists(a.longitude) WITH a, distance(point(a), userloc) AS distance WHERE distance < 5000 RETURN a.Hospital_Name, distance ORDER BY distance",{lat:latitude,long:longitude}).catch(function(err){if(err){console.log(err);}});
+//     var queryres = JSON.parse(result);
+//     var querygeojson = geojson.parse([queryres],{point:['latitude','longitude']});
+//     console.log(querygeojson);
+//     res.json(querygeojson);
+// })
 
 
 app.get('/', function(req,res){
@@ -352,7 +481,7 @@ app.post('/login', function(req, res) {
         session
             .run("MATCH (u:user{username:$userx}) SET u.email=$emailx,u.locality=$localityx,u.disease=$diseasex",{userx:username,emailx:email,localityx:locality,diseasex:disease})
             .then(function(result){
-                res.redirect('profile');
+                res.redirect('/dashboard');
             })
             .catch(function(err){
                 if(err){
@@ -361,23 +490,66 @@ app.post('/login', function(req, res) {
             });
     })
 
+    // app.get('/datacapture',function(req,res){
+    //     res.sendFile(path.join(__dirname, './form.html'));
+    // })
+
     app.get('/addHospital',function(req,res){
         res.sendFile(path.join(__dirname, './addHospital.html'));
     })
 
     app.post('/addHospital',function(req,res){
         if(req.session.loggedin){
-            var name5 = req.session.name;
-            var hospital=req.body.hospital;
-            var telephone=req.body.telephone;
-            var care=req.body.care;
-            var district=req.body.district;
-            var pincode=req.body.pincode;
-            var address=req.body.address;
-            var lattitude=req.body.lattitude;
-            var longitude = req.body.longitude;
-            session
-                .run("CREATE (h:Hospital{Hospital_Name:$param1,Telephone:$param2,Hospital_Care_Type:$param3,District:$param4,Pincode:$param5,Location:$param6,lattitude:$param7,longitude:$param8})",{param1:hospital,param2:telephone,param3:care,param4:district,param5:pincode,param6:address,param7:lattitude,param8:longitude});
+            // var name5 = req.session.name;
+            // var hospital=req.body.hospital; x
+            // var telephone=req.body.telephone; x
+            // var care=req.body.care; x
+            // var district=req.body.district; x
+            // var pincode=req.body.pincode; x
+            // var address=req.body.address; x
+            // var lattitude=req.body.lattitude;
+            // var longitude = req.body.longitude;
+            // session
+            //     .run("CREATE (h:Hospital{Hospital_Name:$param1,Telephone:$param2,Hospital_Care_Type:$param3,District:$param4,Pincode:$param5,Location:$param6,lattitude:$param7,longitude:$param8})",{param1:hospital,param2:telephone,param3:care,param4:district,param5:pincode,param6:address,param7:lattitude,param8:longitude});
+            // res.redirect("/dashboard");
+            HospitalData = {
+                hospitalName: req.body.hospital,
+                hospitalCareType: req.body.care,
+                // email: req.body.inputEmail,
+                locality: req.body.inputLocality,
+                telephone: req.body.telephone,
+                pincode: req.body.pincode,
+                address: req.body.address,
+                district: req.body.district,
+              };
+              console.log(HospitalData);
+              var params = {
+                hospitalNameParam: HospitalData.hospitalName,
+                hospitalCareTypeParam: HospitalData.hospitalCareType,
+                // emailParam: HospitalData.email,
+                // localityParam: HospitalData.locality,
+                telephoneParam: HospitalData.telephone,
+                pincodeParam: HospitalData.pincode,
+                addressParam: HospitalData.address,
+                districtParam: HospitalData.district,
+              };
+              let query =
+                "Create (n:Hospital { Hospital_Name:{hospitalNameParam}, Hospital_Care_Type:{hospitalCareTypeParam},Telephone:{telephoneParam}, Pincode:{pincodeParam}, Location:{addressParam}, District:{districtParam}})  RETURN (n) ";
+            
+              session
+                .run(query, params)
+                .then(function (result) {
+                  // result.records.forEach(function (record) {
+                  //   console.log(record);
+                  // });
+                  //console.log(result);
+                })
+                .catch(function (error) {
+                  console.log(error);
+                });
+            
+              res.send(HospitalData);
+              res.redirect('dashboard');
         }
     })
 

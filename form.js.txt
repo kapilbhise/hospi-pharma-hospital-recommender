@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body { 
+            margin: 0; 
+            padding: 0; 
+        }
+	    #map { 
+            position: absolute; 
+            top: 0; 
+            bottom: 0; 
+            width: 100%; 
+        }
+    </style>
+    <script src="http://cdn.pubnub.com/pubnub-3.7.1.min.js"></script>
+</head>
+<body>
+    <h1>
+        Hello
+    </h1>
+    <form action="/" method="post">
+        <label >Enter Your Name: </label>
+        <input  name="inputName" type="text" value="Kapil">
+        <label >Enter your Surname:</label>
+        <input type="text" name="inputSurname" value="Bhise">
+        <label for="mylatitude">My Latitude:</label>
+        <input type="text" id="mylatitude" name="mylatitude" >
+        <label for="mylongitude">My Longitude:</label>
+        <input type="text" id="mylongitude" name="mylongitude">
+        <button type="submit" name="submit">Submit</button>
+    </form>
+    
+
+    <script>
+        var latitude,longitude;
+        if ("geolocation" in navigator) {
+            navigator.geolocation.getCurrentPosition((position) => {
+                latitude = position.coords.latitude;
+                longitude = position.coords.longitude;
+                console.log(latitude, longitude);
+                document.getElementById("mylatitude").value = latitude;
+                document.getElementById("mylongitude").value = longitude;
+            });
+        } else {
+            console.log("Geolocation is not available");
+        }
+    </script>
+    <script src="form.js"></script>
+</body>
+</html>

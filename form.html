@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <title>User Data Capture</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+            body { 
+                margin: 0; 
+                padding: 0; 
+            }
+            #map { 
+                position: absolute; 
+                top: 0; 
+                bottom: 0; 
+                width: 100%; 
+            }
+        </style>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/simplex/bootstrap.min.css" integrity="sha384-FYrl2Nk72fpV6+l3Bymt1zZhnQFK75ipDqPXK0sOR0f/zeOSZ45/tKlsKucQyjSp" crossorigin="anonymous">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="http://cdn.pubnub.com/pubnub-3.7.1.min.js"></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/">HospiPharma</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarColor03">
+          <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="/logout">Logout</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/signup">Signup</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/dashboard">Dashboard</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/">Search</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/history">History</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Profile</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/recommendation">Recommendations</a>
+          </li>
+          </ul>
+        </div>
+      </nav>
+
+      <div style="padding: 5%;">
+        <div class="card border-primary mb-3 mx-auto" style="max-width: 20rem;">
+            <div class="card-body">
+                <form action="/add1" method="post">
+                    <fieldset>
+                        <div class="form-group">
+                            <label for="inputName">Name</label>
+                            <input type="text" class="form-control" id="inputName" placeholder="name" name="inputName" size="10" maxlength="10">
+                        </div>
+                        <div class="form-group">
+                            <label for="inputSurname">Surname</label>
+                            <input type="text" class="form-control" id="inputSurname" placeholder="surname" name="inputSurname" size="10" maxlength="10">
+                        </div>
+                        <div class="form-group">
+                            <label for="mylatitude">My Latitude</label>
+                            <input type="text" class="form-control" id="mylatitude" placeholder="" name="mylatitude" size="10" maxlength="10">
+                        </div>
+                        <div class="form-group">
+                            <label for="mylongitude">My Longitude</label>
+                            <input type="text" class="form-control" id="mylongitude" placeholder="" name="mylongitude" size="10" maxlength="10">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        var latitude,longitude;
+        if ("geolocation" in navigator) {
+            navigator.geolocation.getCurrentPosition((position) => {
+                latitude = position.coords.latitude;
+                longitude = position.coords.longitude;
+                console.log(latitude, longitude);
+                document.getElementById("mylatitude").value = latitude;
+                document.getElementById("mylongitude").value = longitude;
+            });
+        } else {
+            console.log("Geolocation is not available");
+        }
+    </script>
+    <script src="form.js"></script>
+</body>
+</html>
