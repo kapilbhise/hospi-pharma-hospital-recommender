@@ -43,6 +43,12 @@
           </nav>
 
         <h2>Welcome <%= name %></h2>
+        <% if (messages.error) { %>
+          <p style="color:red"><%- messages.error %></p>
+          <% } %>
+          <% if (messages.success) { %>
+          <p style="color:green"><%- messages.success %></p>
+          <% } %>
         <table class="table table-hover">
             <tbody>
                 <tr>
